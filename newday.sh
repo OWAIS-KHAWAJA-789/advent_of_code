@@ -11,7 +11,7 @@
 # 5) Click https://adventofcode.com under "Cookies"
 # 6) Grab the value for session. Fill it in.
 
-SESSION="53616c7465645f5f6cd26f7bcb40a7a34299ea753fb87f8c079c5f560a24c600fcbe7d4af484bd241f0568fd749ef3d7e0eb9a1c98474a2ae57c6f09dc5ad498"
+SESSION="fill_me"
 USERAGENT="https://github.com/OWAIS-KHAWAJA-789/advent_of_code/blob/master/newday.sh by owaiskhawaja789@gmail.com"
 # replace with your email and identity, its just to tell AOC that who you are sending a programmed request to their server
 # Ensure that the day argument is passed and valid
