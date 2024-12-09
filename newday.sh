@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Usage: ./get_input.sh --day 1
+# Usage: ./newday.sh --day 1
 # You must fill in SESSION following the instructions below.
 # DO NOT run this in a loop, just once.
 
@@ -10,36 +10,21 @@
 # 3) Refresh
 # 5) Click https://adventofcode.com under "Cookies"
 # 6) Grab the value for session. Fill it in.
+
 SESSION="<FILL_ME_IN>"
-
-USERAGENT="https://github.com/OWAIS-KHAWAJA-789/advent_of_code by owaiskhawaja789@gmail.com"
-
-# Default value for year (hardcoded as 2022)
-YEAR=2024
-
+USERAGENT="https://github.com/OWAIS-KHAWAJA-789/advent_of_code/blob/master/newday.sh by owaiskhawaja789@gmail.com"
+# replace with your email and identity, its just to tell AOC that who you are sending a programmed request to their server
 # Ensure that the day argument is passed and valid
 if [[ $# -ne 2 || "$1" != "--day" || ! "$2" =~ ^[0-9]+$ ]]; then
   echo "Usage: $0 --day <day>"
   exit 1
 fi
-
+YEAR=2024
 DAY="$2"
-
-# Construct the URL to fetch the input
 URL="https://adventofcode.com/$YEAR/day/$DAY/input"
-
-# Fetch the input using curl
 OUTPUT=$(curl -s -X GET "$URL" --cookie "session=$SESSION" -A "$USERAGENT")
-
-# Create a directory for the day (e.g., d1, d2, ...)
 DIR="d$DAY"
 mkdir -p "$DIR"
-
-# Save the output to input.txt in the created directory
 echo "$OUTPUT" > "$DIR/input.txt"
-
-# Print the first 10 lines of the output to stderr
-echo "$OUTPUT" | head -n 10 >&2
-
-echo "Input saved in $DIR/input.txt"
-
+echo "Input saved in $DIR/input.txt, here is df.head:"
+echo "$OUTPUT" | head -n 5 >&2
