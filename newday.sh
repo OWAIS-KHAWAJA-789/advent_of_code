@@ -12,19 +12,47 @@
 # 6) Grab the value for session. Fill it in.
 
 SESSION="fill_with_session_id"
-USERAGENT="https://github.com/OWAIS-KHAWAJA-789/advent_of_code/blob/master/newday.sh by owaiskhawaja789@gmail.com"
-# replace with your email and identity, its just to tell AOC that who you are sending a programmed request to their server
+
+USERAGENT="https://github.com/OWAIS-KHAWAJA-789/advent_of_code/blob/legacy/newday.sh by owaiskhawaja789@gmail.com"
+
 # Ensure that the day argument is passed and valid
-if [[ $# -ne 2 || "$1" != "--day" || ! "$2" =~ ^[0-9]+$ ]]; then
-  echo "Usage: $0 --day <day>"
+if [[ $# -ne 1 || ! "$1" =~ ^[0-9]+$ ]]; then
+  echo "Usage: $0 <day>"
   exit 1
 fi
+
 YEAR=2024
-DAY="$2"
+DAY="$1"  # Take the day directly from the argument
 URL="https://adventofcode.com/$YEAR/day/$DAY/input"
+
+# Fetching input
 OUTPUT=$(curl -s -X GET "$URL" --cookie "session=$SESSION" -A "$USERAGENT")
-DIR="d$DAY"
-mkdir -p "advent_of_code/2024/$DIR"
+
+# Check if OUTPUT is empty (curl failed to get data)
+if [ -z "$OUTPUT" ]; then
+  echo "Failed to fetch input for day $DAY. Please check your session cookie and user agent."
+  exit 2
+fi
+
+DIR="advent_of_code/2024/d$DAY"  # Folder named 'd<day>'
+
+# Create directory structure
+mkdir -p "$DIR"
+
+# Ensure the directory was created successfully
+if [ ! -d "$DIR" ]; then
+  echo "Failed to create directory $DIR. Check your permissions."
+  exit 3
+fi
+
+# Write the output to the file
 echo "$OUTPUT" > "$DIR/input.txt"
-echo "Input saved in $DIR/input.txt, here is df.head:"
+
+# Ensure that the file was created
+if [ ! -f "$DIR/input.txt" ]; then
+  echo "Failed to create input.txt in $DIR. Check your permissions."
+  exit 4
+fi
+
+echo "Input saved in $DIR/input.txt, here is the first 5 lines:"
 echo "$OUTPUT" | head -n 5 >&2
